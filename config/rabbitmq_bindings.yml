@@ -1,0 +1,5 @@
+development:
+  fanout:
+    - app.invoices:
+        - workers.invoices.generator
+        - workers.invoices.logger
