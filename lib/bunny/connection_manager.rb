@@ -23,7 +23,7 @@ module Bunny
     private
 
     def establish_connection
-      @active_connection = Bunny.new(user: 'admin', password: 'admin')
+      @active_connection = Bunny.new(user: 'admin', password: 'admin', host: 'rabbitmq')
 
       @active_connection.start
       @active_channel = active_connection.create_channel

@@ -1,11 +1,27 @@
-version: '3'
+version: '3.8'
 
 services:
   rabbitmq:
     image: rabbitmq:3-management
     ports:
-      - "5672:5672"
       - "15672:15672"
     environment:
       - RABBITMQ_DEFAULT_USER=admin
       - RABBITMQ_DEFAULT_PASS=admin
+
+  rails:
+    build: .
+    image: rabbitmq-with-rails
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app
+    entrypoint: /app/rails.sh
+    command: [ "bin/rails", "s", "-p", "3000", "-b", "0.0.0.0" ]
+
+  workers:
+    image: rabbitmq-with-rails
+    volumes:
+      - ./:/app
+    entrypoint: /app/rails.sh
+    command: [ "bin/rails", "sneakers:run" ]
